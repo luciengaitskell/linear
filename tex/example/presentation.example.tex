@@ -1,0 +1,130 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb,latexsym,amsmath,epsfig,amsthm}
+
+
+\title{Teaching Tex}
+\author{Ms. Walsh}
+\date{October 2020}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Introduction}
+
+\pause Hello! This is a teaching document.
+
+\pause Will this create space?
+
+No, \pause but this will\\
+
+%This commands makes extra space depending on what number you use.
+\vspace{.2in}
+
+yeah
+
+\end{frame}
+
+\begin{frame}{Math Stuff}
+
+Let's type an equation: $x^2 + y^2 = 12$\\
+
+Let's type two equations:
+
+\begin{align*}
+3x + y &= 7\\
+9x + 2y &= 8
+\end{align*}
+
+Let's type a matrix:
+
+$$\begin{bmatrix}
+
+1 & 0\\
+0 & 1
+
+\end{bmatrix}$$
+
+Let's do some matrix addition:
+
+$$\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix} +
+\begin{bmatrix}
+2 & 3\\
+-4 & 5
+\end{bmatrix} =
+\begin{bmatrix}
+3 & 3\\
+-4 & 6
+\end{bmatrix}$$
+
+\end{frame}
+
+\begin{frame}{More math stuff}
+
+Let's do some matrix multiplication:
+
+$$\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}
+\left(
+\begin{bmatrix}
+2 & 3\\
+-4 & 5
+\end{bmatrix} 
+\begin{bmatrix}
+3 & 3\\
+-4 & 6
+\end{bmatrix}\right)$$
+
+Let's make an augmented matrix:\\
+
+$$\begin{bmatrix}
+4 & 5 & 6 & | & 7\\
+3 & 4 & 8 & | & 9
+\end{bmatrix}$$
+
+\end{frame}
+
+\begin{frame}{Theorems etc.}
+
+\begin{Theorem}[Ms. Walsh's Theorem]
+If $x$ is a potato, then so is $y$.
+\end{Theorem}
+
+\begin{Definition}
+A \emph{potato} is a friend.
+\end{Definition}
+
+\begin{Example}
+A sweet potato is an example of a potato.
+\end{Example}
+
+\end{frame}
+
+\begin{frame}{Miscellaneous}
+
+$a_ij \neq a_{ij}$\\
+$x^12 + y^12 \neq x^{12} + y^{12}$
+
+\begin{itemize}
+    \item hello
+    \item hello again
+\end{itemize}
+
+\begin{enumerate}
+    \item hello
+    \item hello again
+\end{enumerate}
+
+$\frac{1}{2}$\\
+
+$\dfrac{1}{2}$
+\end{frame}
+
+\end{document}
