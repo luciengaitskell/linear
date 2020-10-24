@@ -1,6 +1,8 @@
 ## Annoying files
 .DS_Store
 
+## JetBrains
+.idea/
 
 #----PYTHON----
 # Byte-compiled / optimized / DLL files
