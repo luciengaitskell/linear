@@ -1,3 +1,13 @@
+"""
+Matrix Transformations
+Unit 1 Assessment
+
+By Lucien Gaitskell
+October 2020
+
+Math is more trouble than it's worth: https://chrisvoncsefalvay.com/2020/07/25/dash-latex/
+
+"""
 from ast import literal_eval
 
 import dash
@@ -13,16 +23,36 @@ import numpy as np
 external_stylesheets = ['assets/styles.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = "Luc's Unit 1 Project"
 
 # Default values
 DEFAULT = [(1, 1), (5, 3), (2, 6)]
 
 
 content = [
-    html.I('Input three points'),
+    html.Header([
+        html.H1("Matrix Transformations"),
+        html.H3("Unit 1 Assessment"),
+        html.H5("Lucien Gaitskell"),
+        html.Hr(),
+    ], style={"textAlign": "center"}),
+
+    html.Table([
+        html.Tr([
+            html.Th("Angle (deg)"),
+            html.Th("Shear"),
+        ]),
+        html.Tr([
+            html.Th(dcc.Input(id='angle', type='text', placeholder='0', debounce=True)),
+            html.Th(dcc.Input(id='shear', type='text', placeholder='0', debounce=True)),
+        ])
+    ]),
+
+    # TODO: Implement shear
+
     html.Br(),
-    html.H6('Angle (deg):'),
-    dcc.Input(id='angle', type='text', placeholder='0', debounce=True),
+    html.I('Input three points'),
+
     html.Br(),
     html.H6('Points:'),
 ]
