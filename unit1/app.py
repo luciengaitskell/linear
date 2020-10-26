@@ -45,16 +45,16 @@ content = [
             html.Th("Scale"),
         ]),
         html.Tr([
-            html.Th(dcc.Input(id='angle', type='text', placeholder='0', debounce=True)),
+            html.Th(dcc.Input(id='angle', type='number', placeholder='0', debounce=True)),
             html.Th([
-                dcc.Input(id='shearx', type='text', placeholder='x axis', debounce=True),
+                dcc.Input(id='shearx', type='number', placeholder='x axis', debounce=True),
                 html.Br(),
-                dcc.Input(id='sheary', type='text', placeholder='y axis', debounce=True),
+                dcc.Input(id='sheary', type='number', placeholder='y axis', debounce=True),
             ]),
             html.Th([
-                dcc.Input(id='scalex', type='text', placeholder='x axis', debounce=True),
+                dcc.Input(id='scalex', type='number', placeholder='x axis', debounce=True),
                 html.Br(),
-                dcc.Input(id='scaley', type='text', placeholder='y axis', debounce=True),
+                dcc.Input(id='scaley', type='number', placeholder='y axis', debounce=True),
             ]),
         ])
     ]),
