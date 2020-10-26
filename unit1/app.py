@@ -9,11 +9,12 @@ Math is more trouble than it's worth: https://chrisvoncsefalvay.com/2020/07/25/d
 
 """
 from ast import literal_eval
+import random
 
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State, ALL
 
 import plotly.graph_objects as go
 
@@ -27,7 +28,7 @@ server = app.server  # For Gunicorn
 app.title = "Luc's Unit 1 Project"
 
 # Default values
-DEFAULT = [(1, 1), (5, 3), (2, 6)]
+DEFAULT = []
 
 
 content = [
@@ -59,41 +60,63 @@ content = [
         ])
     ]),
 
-    # TODO: Implement shear
-
     html.Br(),
-    html.I('Input three points'),
+    html.I('Number of points:'),
+
+    dcc.Input(id='numpts', type='number', placeholder="0", debounce=True),
 
     html.Br(),
     html.H6('Points:'),
-]
+    html.Div(id='point-container', children=[]),
 
-for i, dval in enumerate(DEFAULT):
-    content.append(dcc.Input(id='pt{}'.format(i), type='text', placeholder=str(dval), debounce=True))
-
-
-content.extend([
     html.Div(id='output'),
     dcc.Graph(id='graph'),
-])
+]
+
 
 app.layout = html.Div(content)
-
-
-inputs = []
-inputs.extend([Input(name, 'value') for name in ['angle', 'shearx', 'sheary', 'scalex', 'scaley']])
-inputs.extend([Input('pt{}'.format(i), 'value') for i in range(len(DEFAULT))])
 
 
 def int_sanitize(val, default=0):
     return int(val) if val is not None and val != "" else default
 
 
+# https://dash.plotly.com/pattern-matching-callbacks
+@app.callback(
+    Output('point-container', 'children'),
+    [Input('numpts', 'value')],
+    [State('point-container', 'children')],
+)
+def display_points(numpts, children):
+    numpts = int_sanitize(numpts, 0)
+    children = []
+    for c in range(numpts):
+        if len(DEFAULT) <= c:
+            default = (random.randint(0, 9), random.randint(0, 9))
+            DEFAULT.append(default)
+
+        new_input = dcc.Input(
+            id={
+                'type': 'point-input',
+                'index': c,
+            }, type='text', placeholder="Point {}".format(c+1), debounce=True)
+
+        children.append(new_input)
+    return children
+
+
+inputs = []
+inputs.extend([Input(name, 'value') for name in ['angle', 'shearx', 'sheary', 'scalex', 'scaley']])
+inputs.append(Input({'type': 'point-input', 'index': ALL}, 'value'))
+#inputs.extend([Input('pt{}'.format(i), 'value') for i in range(len(DEFAULT))])
+
+
+
 @app.callback(
     Output('output', 'children'), Output('graph', 'figure'),
     inputs,
 )
-def update_output(theta, shearx, sheary, scalex, scaley, *points):
+def update_output(theta, shearx, sheary, scalex, scaley, points):
     points = [literal_eval(p) if (p is not None and p != '') else DEFAULT[i] for i, p in enumerate(points)]
 
     vectors = []
@@ -127,7 +150,7 @@ def update_output(theta, shearx, sheary, scalex, scaley, *points):
         x.append(v[0, 0])
         y.append(v[1, 0])
 
-    x_o, y_o = zip(*points)
+    x_o, y_o = zip(*points) if len(points) > 0 else ([], [])
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(x=x, y=y))
