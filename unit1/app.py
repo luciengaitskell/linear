@@ -42,10 +42,20 @@ content = [
         html.Tr([
             html.Th("Angle (deg)"),
             html.Th("Shear"),
+            html.Th("Scale"),
         ]),
         html.Tr([
             html.Th(dcc.Input(id='angle', type='text', placeholder='0', debounce=True)),
-            html.Th(dcc.Input(id='shear', type='text', placeholder='0', debounce=True)),
+            html.Th([
+                dcc.Input(id='shearx', type='text', placeholder='x axis', debounce=True),
+                html.Br(),
+                dcc.Input(id='sheary', type='text', placeholder='y axis', debounce=True),
+            ]),
+            html.Th([
+                dcc.Input(id='scalex', type='text', placeholder='x axis', debounce=True),
+                html.Br(),
+                dcc.Input(id='scaley', type='text', placeholder='y axis', debounce=True),
+            ]),
         ])
     ]),
 
@@ -70,15 +80,20 @@ content.extend([
 app.layout = html.Div(content)
 
 
-inputs = [Input('angle', 'value')]
+inputs = []
+inputs.extend([Input(name, 'value') for name in ['angle', 'shearx', 'sheary', 'scalex', 'scaley']])
 inputs.extend([Input('pt{}'.format(i), 'value') for i in range(len(DEFAULT))])
+
+
+def int_sanitize(val, default=0):
+    return int(val) if val is not None and val != "" else default
 
 
 @app.callback(
     Output('output', 'children'), Output('graph', 'figure'),
     inputs,
 )
-def update_output(theta, *points):
+def update_output(theta, shearx, sheary, scalex, scaley, *points):
     points = [literal_eval(p) if (p is not None and p != '') else DEFAULT[i] for i, p in enumerate(points)]
 
     vectors = []
@@ -86,14 +101,24 @@ def update_output(theta, *points):
         vectors.append(np.array([[e] for e in p]))
     print(points)
 
-    theta = int(theta) if theta is not None and theta != "" else 0
+    theta = int_sanitize(theta, 0)
     theta *= np.pi / 180
     c, s = np.cos(theta), np.sin(theta)
     R = np.array(((c, -s), (s, c)))
 
+    scalex = int_sanitize(scalex, 1)
+    scaley = int_sanitize(scaley, 1)
+    shearx = int_sanitize(shearx, 0)
+    sheary = int_sanitize(sheary, 0)
+
+    print((scalex, shearx), (sheary, scaley))
+    scale = np.array(((scalex, shearx), (sheary, scaley)), dtype=np.float)
+
+    coeff = np.dot(R, scale)
+    print(coeff)
 
     for i, v in enumerate(vectors):
-        vectors[i] = np.dot(R, v)
+        vectors[i] = np.dot(coeff, v)
         #print("R * v: {} * {} = {}".format(R, v, vectors[i]))
 
     x = []
