@@ -29,6 +29,7 @@ app.title = "Luc's Unit 1 Project"
 
 # Default values
 DEFAULT = []
+# TODO: GOING TO NEED TO ADDRESS THIS BAD HABIT
 
 
 content = [
@@ -77,8 +78,8 @@ content = [
 app.layout = html.Div(content)
 
 
-def int_sanitize(val, default=0):
-    return int(val) if val is not None and val != "" else default
+def sanitize(val, default=0, t=int):
+    return t(val) if val is not None and val != "" else default
 
 
 # https://dash.plotly.com/pattern-matching-callbacks
@@ -88,7 +89,7 @@ def int_sanitize(val, default=0):
     [State('point-container', 'children')],
 )
 def display_points(numpts, children):
-    numpts = int_sanitize(numpts, 0)
+    numpts = sanitize(numpts, 0)
     children = []
     for c in range(numpts):
         if len(DEFAULT) <= c:
@@ -122,19 +123,17 @@ def update_output(theta, shearx, sheary, scalex, scaley, points):
     vectors = []
     for p in points:
         vectors.append(np.array([[e] for e in p]))
-    print(points)
 
-    theta = int_sanitize(theta, 0)
+    theta = sanitize(theta, 0, float)
     theta *= np.pi / 180
     c, s = np.cos(theta), np.sin(theta)
     R = np.array(((c, -s), (s, c)))
 
-    scalex = int_sanitize(scalex, 1)
-    scaley = int_sanitize(scaley, 1)
-    shearx = int_sanitize(shearx, 0)
-    sheary = int_sanitize(sheary, 0)
+    scalex = sanitize(scalex, 1, float)
+    scaley = sanitize(scaley, 1, float)
+    shearx = sanitize(shearx, 0, float)
+    sheary = sanitize(sheary, 0, float)
 
-    print((scalex, shearx), (sheary, scaley))
     scale = np.array(((scalex, shearx), (sheary, scaley)), dtype=np.float)
 
     coeff = np.dot(R, scale)
@@ -155,6 +154,19 @@ def update_output(theta, shearx, sheary, scalex, scaley, points):
 
     fig.add_trace(go.Scatter(x=x, y=y))
     fig.add_trace(go.Scatter(x=x_o, y=y_o))
+
+    fig.update_layout(
+        height=800,
+        title="Display"
+    )
+
+    fig.update_xaxes(range=(-10, 10))
+    fig.update_yaxes(
+        scaleanchor="x",
+        scaleratio=1,
+        range=(-10, 10)
+    )
+
     return "Points {}".format(points), fig
 
 
