@@ -436,3 +436,5 @@ there.
 
 #output-container {
 }
+
+#output-container th:not(:last-child), #output-container td:not(:last-child) { border-right: 1px solid #000; }

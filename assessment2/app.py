@@ -43,7 +43,6 @@ content = [
         dcc.Dropdown(id="vspace-type", className='config-value',
                      options=[
                          {'label': 'Vector', 'value': 'vctr'},
-                         {'label': 'Matrix', 'value': 'matr'},
                          {'label': 'Polynomial', 'value': 'poly'}
                      ],
                      value='vctr'
@@ -61,6 +60,7 @@ content = [
 
     html.Div(id='set-container', children=[]),
 
+    html.H4("Final Set:"),
     html.Div(id='output-container'),
 ]
 
@@ -127,17 +127,20 @@ def display_points(vdim, ssize, children, existvidx, vvalues):
 @app.callback(
     Output('output-container', 'children'),
     [
-        Input({'type': 'vector-input', 'index': ALL}, 'value'),
+        Input({'type': 'vector-input', 'index': ALL}, 'value'), Input('vspace-type', 'value')
     ],
     [State({'type': 'vector-input', 'index': ALL}, 'id'), State('vspace-dim', 'value'), State('set-size', 'value')],
 )
-def update_output(vecvals, vecids, vecdim, setsize):
+def update_output(vecvals, vspacetype, vecids, vecdim, setsize):
     """
 
     :param vecvals: Vector element values
     :param vecids: Vector element IDs
     :return:
     """
+
+    if vecdim is None or setsize is None:
+        return ""
 
     input_set = [sp.zeros(vecdim, 1) for i in range(setsize)]
 
@@ -150,7 +153,11 @@ def update_output(vecvals, vecids, vecdim, setsize):
     set_columns = []
     for set_vec in final_set:
         vector_elements = []
-        for ele in set_vec:
+        for deg, ele in enumerate(set_vec):
+            ele = str(ele)
+            if vspacetype == 'poly':
+                ele += ' *t^{}'.format(deg)
+
             vector_elements.extend([
                 html.P(str(ele)),
                 html.Br(),
