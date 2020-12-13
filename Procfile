@@ -1,1 +1,1 @@
-web: gunicorn --chdir "assessment1" app:server
+web: gunicorn --chdir "assessment2" app:server
