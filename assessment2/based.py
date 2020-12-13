@@ -15,6 +15,7 @@ therefore -> find non-pivot and remove
 finally, it yields a basis
 
 """
+DEBUG = False
 
 
 def basis(op_set):
@@ -22,11 +23,11 @@ def basis(op_set):
         rref, pivot = process_set(op_set)  # process
         set_dim = rref.rows
 
-        print("Set:", op_set)
+        if DEBUG: print("Set:", op_set)
 
-        print("\nRREF:", rref)
+        if DEBUG: print("\nRREF:", rref)
 
-        print("\nPivot:", pivot)
+        if DEBUG: print("\nPivot:", pivot)
 
         # Check if set is spanning
         spanning = True
