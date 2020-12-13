@@ -1,3 +1,6 @@
+# Presentation binary:
+*.key
+
 ## Annoying files
 .DS_Store
 
