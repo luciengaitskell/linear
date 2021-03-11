@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Discrete/Linear Assessment 3</title>
+</head>
+<body>
+
+<h2 id="title">Discretely Linear</h2>
+<h3 id="bar">Fourier Series</h3>
+<p id="name">Lucien Gaitskell</p>
+
+<main>
+<form>
+    <p>
+        <select id="type">
+            <option value="square">Square</option>
+            <option value="triangle">Triangle</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="pulse">Pulse</option>
+            <option value="exercise22">Exercise 22</option>
+        </select>
+        <input id="size" type="number" value="6" min="1" max="40" step="1">
+    </p>
+    <p><input id="freq" type="range" value="0.3" min="0.01" max="0.5" step="0.01"> <label>Speed</label></p>
+</form>
+</main>
+<footer>
+    <p>Source: <a href="https://bl.ocks.org/jinroh/7524988"><em>Fourier series visualisation with d3.js.</em></a> </p>
+</footer>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="graph.js"></script>
+</body>
+</html>

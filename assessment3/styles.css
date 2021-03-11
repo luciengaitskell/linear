@@ -1,0 +1,75 @@
+body {
+    font: 13px/13px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: auto;
+    position: relative;
+    width: 100vw;
+}
+form {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.hide {
+    display: none;
+}
+.coeff .dot {
+    fill: hsla(207, 63%, 27%, 0.2);
+}
+.coeff.last .dot {
+    fill: hsla(207, 63%, 27%, 1.0);
+}
+.coeff .circle {
+    fill: none;
+    stroke: hsl(0, 0%, 70%);
+}
+.coeff.first .circle {
+    fill: none;
+    stroke: hsl(0, 0%, 30%);
+}
+.coeff.last .circle {
+    display: none;
+}
+.graph {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+.trace {
+    fill: none;
+    stroke: steelblue;
+}
+.proj {
+    fill: none;
+    stroke: #000;
+}
+.axis {
+    stroke: hsl(0, 0%, 70%);
+}
+
+body {
+    display: grid;
+    grid-template-columns: 200px auto 120px;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "title bar name"
+    "main main main";
+}
+
+main {
+    grid-area: main;
+}
+
+#title {
+    grid-area: title;
+    font-weight: bold;
+}
+
+#bar {
+    grid-area: bar;
+}
+
+#name {
+    text-align: end;
+    padding-right: 20px;
+}
+
